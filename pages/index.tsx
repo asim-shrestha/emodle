@@ -56,8 +56,8 @@ const KeyboardButton = styled.div`
 `;
 
 const Home: NextPage = () => {
-	const emodleText = "Will you be my valentine? 💘";
-	const emodle = ["💘", "👦", "👩", "🐕", "💘"];
+	const emodleText = "Kill two birds with one stone.";
+	const emodle = ["🔪", "🐦", "🐦", "1️⃣", "🧱"];
 	const numLetters = 5;
 	const numRows = 6;
 	const [currRow, setCurrRow] = useState<number>(0);
