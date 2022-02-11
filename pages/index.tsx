@@ -4,6 +4,15 @@ import styled from "styled-components";
 import {useState} from "react";
 import TileRow from "../components/TileRow";
 
+const PageLayout = styled.div`
+  padding-top: 1em;
+  padding-bottom: 3em;
+  height: calc(100vh - 4em);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`
 
 type LayoutRowProps = {
     gap?: string
@@ -11,6 +20,14 @@ type LayoutRowProps = {
 const LayoutRow = styled.div`
     display: flex;
     gap: ${(props: LayoutRowProps) => props.gap};
+  	max-width: 480px;
+`
+
+const KeyboardGrid = styled.div`
+  display: grid;
+  grid-template-rows:repeat(2, 5.5em);
+  grid-auto-flow: column;
+  column-gap:1rem;
 `
 
 const GameBoard = styled.div`
@@ -66,8 +83,10 @@ const Home: NextPage = () => {
 	const handleEnter = () => {}
 
 	return (
-		<div>
-			EMODLE {getRandomEmoji()}
+		<PageLayout>
+			<h1>
+				EMODLE {getRandomEmoji()}
+			</h1>
 			<GameBoard>
 				<TileRow letters={letters}/>
 				<TileRow letters={letters}/>
@@ -76,14 +95,16 @@ const Home: NextPage = () => {
 				<TileRow letters={letters}/>
 				<TileRow letters={letters}/>
             </GameBoard>
-			<LayoutRow gap={'1rem'}>
+			<KeyboardGrid>
 				{
 					emojis.map((emoji: string) => <KeyboardButton key={emoji} onClick={() => handleAddLetter(emoji)}>{emoji}</KeyboardButton>)
 				}
+			</KeyboardGrid>
+			<LayoutRow gap={'1rem'}>
 				<KeyboardButton onClick={handleEnter}>Enter</KeyboardButton>
 				<KeyboardButton onClick={handleUndo}>{' <= '}</KeyboardButton>
 			</LayoutRow>
-		</div>
+		</PageLayout>
 	)
 }
 
