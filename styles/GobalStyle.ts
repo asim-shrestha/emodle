@@ -9,6 +9,15 @@ body {
   margin: 0 0 0 0;
 }
 
+h1 {
+  word-spacing: 2rem;
+}
+
+h1, p {
+  margin: 0;
+  padding: 0;
+}
+
 body, input, textarea, button  {
   font-family:"Encode Sans",Roboto,monospace;
 }
