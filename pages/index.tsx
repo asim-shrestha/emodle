@@ -2,7 +2,7 @@ import type {NextPage} from 'next'
 import {getEmojiList, getRandomEmoji} from '../helper/emojis';
 import styled from "styled-components";
 import {useState} from "react";
-import TileRow from "../components/TileRow";
+import GameBoard from "../components/Gameboard";
 
 const PageLayout = styled.div`
   padding-top: 1em;
@@ -30,24 +30,18 @@ const KeyboardGrid = styled.div`
   column-gap:1rem;
 `
 
-const GameBoard = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-`
-
 const KeyboardButton = styled.div`
     display: grid;
     padding: 0.25rem;
     font-size: 1.5rem;
-    height: 4rem;
+    height: 3rem;
     place-items: center;
     background-color: ${(props: any) => props.isCorrect ? "green" : (props.isIncorrect ? "#383838" : props.theme.colors.background)};
     border-radius: 10%;
       
     &:hover {
-      background-color: ${(props) => props.theme.colors.hover};
-      cursor: pointer;
+      background-color: ${(props: any) => props.isIncorrect ? "" : props.theme.colors.hover};
+      cursor: ${(props: any) => props.isIncorrect ? "not-allowed" : "pointer"};
     }
 
     &:active {
@@ -56,10 +50,6 @@ const KeyboardButton = styled.div`
 `;
 
 const Home: NextPage = () => {
-	const emodleText = "Kill two birds with one stone.";
-	const emodle = ["🔪", "🐦", "🐦", "1️⃣", "🧱"];
-	const numLetters = 5;
-	const numRows = 6;
 	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
 	const [isFinished, setIsFinished] = useState<boolean>(false);
@@ -73,8 +63,12 @@ const Home: NextPage = () => {
 		["", "", "", "", ""],
 		["", "", "", "", ""],
 	]);
-	const emojis = getEmojiList();
 
+	const emojis = getEmojiList();
+	const emodleText = "Kill two birds with one stone.";
+	const emodle = ["🔪", "🐦", "🐦", "1️⃣", "🧱"];
+	const numLetters = 5;
+	const numRows = 6;
 
 	const changeLetterAtPosition = (letter: string, position: number) => {
 		const newLetters = [...letters];
@@ -83,7 +77,7 @@ const Home: NextPage = () => {
 	}
 
 	const handleAddLetter = (letter: string) => {
-		if(currIndex >= numLetters || currRow >= numRows || isFinished) { return; }
+		if(currIndex >= numLetters || currRow >= numRows || isFinished || incorrect.indexOf(letter) > -1) { return; }
 		changeLetterAtPosition(letter, currIndex);
 		setCurrIndex(currIndex + 1);
 	}
@@ -106,12 +100,12 @@ const Home: NextPage = () => {
 				checkFinish = false;
 			}
 
+			// Check if input text was correct or not to update the keyboard
 			if(emodle.indexOf(letters[currRow][i]) > -1) {
 				newCorrect.push(letters[currRow][i]);
 				setCorrect([...correct, letters[currRow][i]])
 			} else {
 				newIncorrect.push(letters[currRow][i]);
-				console.log("FOUND BAD", letters[currRow][i])
 				setIncorrect([...incorrect, letters[currRow][i]])
 			}
 		}
@@ -119,8 +113,6 @@ const Home: NextPage = () => {
 		setIncorrect(newIncorrect);
 		setIsFinished(checkFinish);
 
-		console.log("CORRECT", correct);
-		console.log("INCORRECt", incorrect);
 		setCurrRow(currRow + 1);
 		setCurrIndex(0);
 	}
@@ -138,14 +130,7 @@ const Home: NextPage = () => {
 					</div> :
 					<></>
 			}
-			<GameBoard>
-				<TileRow letters={letters[0]} emodle={emodle} isFinished={currRow > 0}/>
-				<TileRow letters={letters[1]} emodle={emodle} isFinished={currRow > 1}/>
-				<TileRow letters={letters[2]} emodle={emodle} isFinished={currRow > 2}/>
-				<TileRow letters={letters[3]} emodle={emodle} isFinished={currRow > 3}/>
-				<TileRow letters={letters[4]} emodle={emodle} isFinished={currRow > 4}/>
-				<TileRow letters={letters[5]} emodle={emodle} isFinished={currRow > 5}/>
-            </GameBoard>
+			<GameBoard emodle={emodle} letters={letters} currRow={currRow}/>
 			<KeyboardGrid>
 				{
 					// @ts-ignore

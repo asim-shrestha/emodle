@@ -38,13 +38,12 @@ const TileDiv = styled.div`
 			  `}
 `
 
-type TileProps = {
+type TileRowProps = {
 	letters: string[],
 	emodle: string[],
 	isFinished: boolean,
 }
-
-const TileRow: FunctionComponent<TileProps> = ({letters, emodle, isFinished}) => {
+const TileRow: FunctionComponent<TileRowProps> = ({letters, emodle, isFinished}) => {
 	const getLetterStates = (): string[] => {
 		const emodleCopy = [...emodle];
 		const letterBank = [...emodle];
