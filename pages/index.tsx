@@ -8,7 +8,8 @@ import { use100vh } from 'react-div-100vh'
 
 
 const PageLayout = styled.div`
-  width: 100vw;
+  max-width: 100vw;
+  width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -17,8 +18,6 @@ const PageLayout = styled.div`
 const PageContent = styled.div`
   padding-bottom: 1rem;
   height: 100%;
-  max-width: 100vw;
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
