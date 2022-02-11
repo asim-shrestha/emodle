@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {FunctionComponent} from "react";
 import {getEmojiList} from "../helper/emojis";
-import Image from "next/Image";
 
 const KeyboardGrid = styled.div`
   display: grid;
@@ -67,7 +66,7 @@ const Keyboard: FunctionComponent<KeyboardProps> = ({incorrectList, correctList,
 				<KeyboardButton onClick={handleEnter}>Enter</KeyboardButton>
 				<KeyboardButton onClick={handleClear}>Clear</KeyboardButton>
 				<KeyboardButton onClick={handleUndo}>
-					<Image src="/backspace.svg" height={25} width={30} alt={"Backspace Icon"}/>
+					<img src="/backspace.svg" height={25} width={30} alt={"Backspace Icon"}/>
 				</KeyboardButton>
 			</FunctionButtons>
 		</div>
