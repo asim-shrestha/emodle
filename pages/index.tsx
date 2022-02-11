@@ -4,12 +4,10 @@ import {useState} from "react";
 import GameBoard from "../components/Gameboard";
 import Title from "../components/Title";
 import Keyboard from "../components/Keyboard";
+import { use100vh } from 'react-div-100vh'
 
 
 const PageLayout = styled.div`
-  // noinspection CssInvalidPropertyValue
-  height: -webkit-fill-available;
-  height: 100vh;
   width: 100vw;
   display: flex;
   align-items: center;
@@ -19,7 +17,8 @@ const PageLayout = styled.div`
 const PageContent = styled.div`
   padding-bottom: 1rem;
   height: 100%;
-  width: 480px;
+  max-width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,6 +27,7 @@ const PageContent = styled.div`
 
 
 const Home: NextPage = () => {
+	const viewportHeight = use100vh()
 	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
 	const [isFinished, setIsFinished] = useState<boolean>(false);
@@ -102,7 +102,8 @@ const Home: NextPage = () => {
 	}
 
 	return (
-		<PageLayout>
+		// @ts-ignore
+		<PageLayout style={{height: viewportHeight}}>
 			<PageContent>
 				<Title/>
 				{
