@@ -7,25 +7,34 @@ const KeyboardGrid = styled.div`
   grid-template-rows:repeat(4, 4em);
   grid-auto-flow: column;
   column-gap:0.5rem;
+
+  @media (max-width: 480px) {
+    grid-template-rows:repeat(4, 3.5em);
+  }
 `;
 
 const KeyboardButton = styled.div<{isCorrect?: boolean, isIncorrect?: boolean}>`
-    display: grid;
-    padding: 0.25rem;
-    font-size: 1.25rem;
-    height: 3rem;
-    place-items: center;
-    background-color: ${(props: any) => props.isCorrect ? "green" : (props.isIncorrect ? "#383838" : props.theme.colors.background)};
-    border-radius: 10%;
-      
-    &:hover {
-      background-color: ${(props: any) => props.isIncorrect ? "" : props.theme.colors.hover};
-      cursor: ${(props: any) => props.isIncorrect ? "not-allowed" : "pointer"};
-    }
-
-    &:active {
-      background-color: ${(props) => props.theme.colors.dark};
-    }
+  display: grid;
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  height: 3rem;
+  place-items: center;
+  background-color: ${(props: any) => props.isCorrect ? "green" : (props.isIncorrect ? "#383838" : props.theme.colors.background)};
+  border-radius: 10%;
+  
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    height: 2.5rem;
+  }
+  
+  &:hover {
+	background-color: ${(props: any) => props.isIncorrect ? "" : props.theme.colors.hover};
+	cursor: ${(props: any) => props.isIncorrect ? "not-allowed" : "pointer"};
+  }
+  
+  &:active {
+	background-color: ${(props) => props.theme.colors.dark};
+  }
 `;
 
 const FunctionButtons = styled.div`

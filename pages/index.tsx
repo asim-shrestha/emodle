@@ -7,6 +7,8 @@ import Keyboard from "../components/Keyboard";
 
 
 const PageLayout = styled.div`
+  // noinspection CssInvalidPropertyValue
+  height: -webkit-fill-available;
   height: 100vh;
   width: 100vw;
   display: flex;

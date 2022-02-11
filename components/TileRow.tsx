@@ -7,35 +7,41 @@ const TilesContainer = styled.div`
 `;
 
 const TileDiv = styled.div`
-	  display: grid;
-	  place-items: center;
-	  width: 3rem;
-	  height: 3rem;
-	  font-size: 2rem;
-	
-	  ${(props: any) => !props.isFinished && 
-			  css`
-	  			border: 2px solid ${(props) => props.theme.colors.outline};
-			  `}
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  font-size: 2rem;
 
-      ${(props: any) => (props.isFinished && props.isCorrect) &&
-              css`
-	  			margin: 2px;
-				color: black;
-				background-color: green;
-			  `}
-      ${(props: any) => (props.isFinished && !props.isCorrect) &&
-              css`
-	  			margin: 2px;
-				color: black;
-				background-color: grey;
-			  `}
-      ${(props: any) => (props.isFinished && props.isMisplaced) &&
-              css`
-	  			margin: 2px;
-				color: black;
-				background-color: yellow;
-			  `}
+  @media (max-width: 480px) {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.75rem;
+  }
+  
+  ${(props: any) => !props.isFinished && 
+		  css`
+			border: 2px solid ${(props) => props.theme.colors.outline};
+		  `}
+
+  ${(props: any) => (props.isFinished && props.isCorrect) &&
+		  css`
+			margin: 2px;
+			color: black;
+			background-color: green;
+		  `}
+  ${(props: any) => (props.isFinished && !props.isCorrect) &&
+		  css`
+			margin: 2px;
+			color: black;
+			background-color: grey;
+		  `}
+  ${(props: any) => (props.isFinished && props.isMisplaced) &&
+		  css`
+			margin: 2px;
+			color: black;
+			background-color: yellow;
+		  `}
 `
 
 type TileRowProps = {
