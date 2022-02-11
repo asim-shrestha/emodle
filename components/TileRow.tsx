@@ -79,12 +79,14 @@ const TileRow: FunctionComponent<TileProps> = ({letters, emodle, isFinished}) =>
 
 	const letterStates = getLetterStates();
 
+	// @ts-ignore
 	return (
 		<TilesContainer>
 			{
 				letters.map((letter: string, i) =>
 					<TileDiv
 						key={i + letter}
+	// @ts-ignore
 						isFinished={isFinished}
 						isCorrect={letterStates[i] == "correct"}
 						isMisplaced={letterStates[i] == "misplaced"}

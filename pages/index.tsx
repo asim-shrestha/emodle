@@ -148,6 +148,7 @@ const Home: NextPage = () => {
             </GameBoard>
 			<KeyboardGrid>
 				{
+					// @ts-ignore
 					emojis.map((emoji: string) => <KeyboardButton key={emoji} isIncorrect={incorrect.indexOf(emoji) > -1} isCorrect={correct.indexOf(emoji) > -1} onClick={() => handleAddLetter(emoji)}>{emoji}</KeyboardButton>)
 				}
 			</KeyboardGrid>
