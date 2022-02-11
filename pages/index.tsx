@@ -42,7 +42,7 @@ const KeyboardButton = styled.div`
     font-size: 1.5rem;
     height: 4rem;
     place-items: center;
-    background-color: ${(props) => props.theme.colors.background};
+    background-color: ${(props: any) => props.isCorrect ? "green" : (props.isIncorrect ? "#383838" : props.theme.colors.background)};
     border-radius: 10%;
       
     &:hover {
@@ -56,13 +56,15 @@ const KeyboardButton = styled.div`
 `;
 
 const Home: NextPage = () => {
-	const emodleText = "Three birds with one stone";
-	const emodle = ["🐦", "🐦", "🐦", "1️⃣", "🧱"];
+	const emodleText = "Will you be my valentine? 💘";
+	const emodle = ["💘", "👦", "👩", "🐕", "💘"];
 	const numLetters = 5;
 	const numRows = 6;
 	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
 	const [isFinished, setIsFinished] = useState<boolean>(false);
+	const [correct, setCorrect] = useState<string[]>([]);
+	const [incorrect, setIncorrect] = useState<string[]>([]);
 	const [letters, setLetters] = useState<string[][]>([
 		["", "", "", "", ""],
 		["", "", "", "", ""],
@@ -81,7 +83,7 @@ const Home: NextPage = () => {
 	}
 
 	const handleAddLetter = (letter: string) => {
-		if(currIndex >= numLetters || currRow >= numRows) { return; }
+		if(currIndex >= numLetters || currRow >= numRows || isFinished) { return; }
 		changeLetterAtPosition(letter, currIndex);
 		setCurrIndex(currIndex + 1);
 	}
@@ -95,8 +97,30 @@ const Home: NextPage = () => {
 	const handleEnter = () => {
 		if(currIndex < numLetters) { return; }
 
-		if(letters[currRow] == emodle) { setIsFinished(true); }
+		let checkFinish = true;
+		let newCorrect = [...correct];
+		let newIncorrect = [...incorrect];
+		for(let i = 0; i < letters.length; i++) {
+			if(letters[currRow][i] == undefined) { continue; }
+			if(letters[currRow][i] != emodle[i]) {
+				checkFinish = false;
+			}
 
+			if(emodle.indexOf(letters[currRow][i]) > -1) {
+				newCorrect.push(letters[currRow][i]);
+				setCorrect([...correct, letters[currRow][i]])
+			} else {
+				newIncorrect.push(letters[currRow][i]);
+				console.log("FOUND BAD", letters[currRow][i])
+				setIncorrect([...incorrect, letters[currRow][i]])
+			}
+		}
+		setCorrect(newCorrect);
+		setIncorrect(newIncorrect);
+		setIsFinished(checkFinish);
+
+		console.log("CORRECT", correct);
+		console.log("INCORRECt", incorrect);
 		setCurrRow(currRow + 1);
 		setCurrIndex(0);
 	}
@@ -124,7 +148,7 @@ const Home: NextPage = () => {
             </GameBoard>
 			<KeyboardGrid>
 				{
-					emojis.map((emoji: string) => <KeyboardButton key={emoji} onClick={() => handleAddLetter(emoji)}>{emoji}</KeyboardButton>)
+					emojis.map((emoji: string) => <KeyboardButton key={emoji} isIncorrect={incorrect.indexOf(emoji) > -1} isCorrect={correct.indexOf(emoji) > -1} onClick={() => handleAddLetter(emoji)}>{emoji}</KeyboardButton>)
 				}
 			</KeyboardGrid>
 			<LayoutRow gap={'1rem'}>

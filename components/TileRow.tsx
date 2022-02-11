@@ -30,6 +30,12 @@ const TileDiv = styled.div`
 				color: black;
 				background-color: grey;
 			  `}
+      ${(props: any) => (props.isFinished && props.isMisplaced) &&
+              css`
+	  			margin: 2px;
+				color: black;
+				background-color: yellow;
+			  `}
 `
 
 type TileProps = {
@@ -41,11 +47,33 @@ type TileProps = {
 const TileRow: FunctionComponent<TileProps> = ({letters, emodle, isFinished}) => {
 	const getLetterStates = (): string[] => {
 		const emodleCopy = [...emodle];
+		const letterBank = [...emodle];
 		const letterStates = ["", "", "", "", ""];
 
+		// Get correct letters
 		for(let i = 0; i < letters.length; i++) {
-			if(letters[i] == emodleCopy[i]) { letterStates[i] = "correct"}
+			if(letters[i] == emodleCopy[i]) {
+				letterStates[i] = "correct"
+
+				// Remove correct letter from letter bank
+				const index = letterBank.indexOf(letters[i]);
+				letterBank.splice(index, 1); // 2nd parameter means remove one item only
+			}
 		}
+
+		// Get misplaced letters if available
+		for(let i = 0; i < letterStates.length; i++) {
+			if(letterStates[i] == "correct") { continue; }
+
+			const index = letterBank.indexOf(letters[i]);
+			if(index > -1) {
+				letterStates[i] = "misplaced"
+
+				// Remove correct letter from letter bank
+				letterBank.splice(index, 1); // 2nd parameter means remove one item only
+			}
+		}
+
 		return letterStates;
 	}
 
