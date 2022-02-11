@@ -12,24 +12,57 @@ const TileDiv = styled.div`
 	  width: 3rem;
 	  height: 3rem;
 	  font-size: 2rem;
-	  border: 2px solid ${(props) => props.theme.colors.outline};
 	
-	  ${(props: any) => props.disabled && 
+	  ${(props: any) => !props.isFinished && 
 			  css`
-				opacity: 0.5;
-				cursor: not-allowed;
+	  			border: 2px solid ${(props) => props.theme.colors.outline};
+			  `}
+
+      ${(props: any) => (props.isFinished && props.isCorrect) &&
+              css`
+	  			margin: 2px;
+				color: black;
+				background-color: green;
+			  `}
+      ${(props: any) => (props.isFinished && !props.isCorrect) &&
+              css`
+	  			margin: 2px;
+				color: black;
+				background-color: grey;
 			  `}
 `
 
 type TileProps = {
-	letters: string[]
+	letters: string[],
+	emodle: string[],
+	isFinished: boolean,
 }
 
-const TileRow: FunctionComponent<TileProps> = ({letters}) => {
+const TileRow: FunctionComponent<TileProps> = ({letters, emodle, isFinished}) => {
+	const getLetterStates = (): string[] => {
+		const emodleCopy = [...emodle];
+		const letterStates = ["", "", "", "", ""];
+
+		for(let i = 0; i < letters.length; i++) {
+			if(letters[i] == emodleCopy[i]) { letterStates[i] = "correct"}
+		}
+		return letterStates;
+	}
+
+	const letterStates = getLetterStates();
+
 	return (
 		<TilesContainer>
 			{
-				letters.map((letter: string, i) => <TileDiv key={i + letter}>{letter}</TileDiv> )
+				letters.map((letter: string, i) =>
+					<TileDiv
+						key={i + letter}
+						isFinished={isFinished}
+						isCorrect={letterStates[i] == "correct"}
+						isMisplaced={letterStates[i] == "misplaced"}
+					>
+						{letter}
+					</TileDiv> )
 			}
 		</TilesContainer>
 	);

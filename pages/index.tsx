@@ -25,7 +25,7 @@ const LayoutRow = styled.div`
 
 const KeyboardGrid = styled.div`
   display: grid;
-  grid-template-rows:repeat(2, 5.5em);
+  grid-template-rows:repeat(3, 5.5em);
   grid-auto-flow: column;
   column-gap:1rem;
 `
@@ -56,20 +56,32 @@ const KeyboardButton = styled.div`
 `;
 
 const Home: NextPage = () => {
+	const emodleText = "Three birds with one stone";
+	const emodle = ["🐦", "🐦", "🐦", "1️⃣", "🧱"];
 	const numLetters = 5;
+	const numRows = 6;
+	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
-	const [letters, setLetters] = useState<string[]>(["", "", "", "", ""]);
+	const [isFinished, setIsFinished] = useState<boolean>(false);
+	const [letters, setLetters] = useState<string[][]>([
+		["", "", "", "", ""],
+		["", "", "", "", ""],
+		["", "", "", "", ""],
+		["", "", "", "", ""],
+		["", "", "", "", ""],
+		["", "", "", "", ""],
+	]);
 	const emojis = getEmojiList();
 
 
 	const changeLetterAtPosition = (letter: string, position: number) => {
 		const newLetters = [...letters];
-		newLetters[position] = letter;
+		newLetters[currRow][position] = letter;
 		setLetters(newLetters);
 	}
 
 	const handleAddLetter = (letter: string) => {
-		if(currIndex == numLetters) { return; }
+		if(currIndex >= numLetters || currRow >= numRows) { return; }
 		changeLetterAtPosition(letter, currIndex);
 		setCurrIndex(currIndex + 1);
 	}
@@ -80,20 +92,35 @@ const Home: NextPage = () => {
 		setCurrIndex(prevIndex);
 	}
 
-	const handleEnter = () => {}
+	const handleEnter = () => {
+		if(currIndex < numLetters) { return; }
+
+		if(letters[currRow] == emodle) { setIsFinished(true); }
+
+		setCurrRow(currRow + 1);
+		setCurrIndex(0);
+	}
 
 	return (
 		<PageLayout>
 			<h1>
 				EMODLE {getRandomEmoji()}
 			</h1>
+			{
+				isFinished ?
+					<div>
+						<h2>{emodleText}</h2>
+						<p>{emodle}</p>
+					</div> :
+					<></>
+			}
 			<GameBoard>
-				<TileRow letters={letters}/>
-				<TileRow letters={letters}/>
-				<TileRow letters={letters}/>
-				<TileRow letters={letters}/>
-				<TileRow letters={letters}/>
-				<TileRow letters={letters}/>
+				<TileRow letters={letters[0]} emodle={emodle} isFinished={currRow > 0}/>
+				<TileRow letters={letters[1]} emodle={emodle} isFinished={currRow > 1}/>
+				<TileRow letters={letters[2]} emodle={emodle} isFinished={currRow > 2}/>
+				<TileRow letters={letters[3]} emodle={emodle} isFinished={currRow > 3}/>
+				<TileRow letters={letters[4]} emodle={emodle} isFinished={currRow > 4}/>
+				<TileRow letters={letters[5]} emodle={emodle} isFinished={currRow > 5}/>
             </GameBoard>
 			<KeyboardGrid>
 				{
