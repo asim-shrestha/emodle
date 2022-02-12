@@ -6,6 +6,7 @@ import Title from "../components/Title";
 import Keyboard from "../components/Keyboard";
 import { use100vh } from 'react-div-100vh'
 import {getGameEndText, getLetterStates} from "../helper/score";
+import Modal from "../components/Modal";
 
 
 const PageLayout = styled.div`
@@ -28,7 +29,7 @@ const PageContent = styled.div`
 
 const Home: NextPage = () => {
 	const localStorageKey = "emodle_data_23kie";
-	const viewportHeight = use100vh()
+	const viewportHeight = use100vh() || "100vh";
 	const emodleText = "Avatar the last Air Bender.";
 	const [emodle] = useState<string[]>(["💦", "🌎", "🔥", "🌪️", "⬇️"]);
 	const [currRow, setCurrRow] = useState<number>(0);
@@ -45,6 +46,7 @@ const Home: NextPage = () => {
 		["", "", "", "", ""],
 		["", "", "", "", ""],
 	]);
+	const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(true);
 
 	const numLetters = 5;
 	const numRows = 6;
@@ -146,8 +148,8 @@ const Home: NextPage = () => {
 	}
 
 	return (
-		// @ts-ignore
 		<PageLayout style={{height: viewportHeight}}>
+			<Modal isOpen={isHelpModalOpen} handleClose={() => setIsHelpModalOpen(false)}/>
 			<PageContent>
 				<Title/>
 				{
