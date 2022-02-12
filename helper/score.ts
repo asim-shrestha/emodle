@@ -39,7 +39,7 @@ const getGameEndText = (emodle: string[], allLetters: string[][], day: number): 
 		let rowStates = getLetterStates(emodle, letters);
 		for(let state of rowStates) {
 			if (state == "correct") {rowScore += "🟩"}
-			else if (state == "misplaced") {rowScore += "🟨"; failed = true;}
+			else if (state == "misplaced") {rowScore += "🟧"; failed = true;}
 			else {rowScore += "⬜"; failed = true;}
 		}
 
@@ -48,7 +48,7 @@ const getGameEndText = (emodle: string[], allLetters: string[][], day: number): 
 		else { break; }
 	}
 
-	let gameEndText = `Emodle ${day}, ${numRows}/6\n\n`;
+	let gameEndText = `Emodle ${day}, ${numRows > 6 ? "X" : numRows}/6\n\n`;
 	gameEndText += rowScores;
 	gameEndText += `\nBeat my score at ${window.location.origin} #Emodle`;
 
