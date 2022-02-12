@@ -6,7 +6,7 @@ import Title from "../components/Title";
 import Keyboard from "../components/Keyboard";
 import { use100vh } from 'react-div-100vh'
 import {getGameEndText, getLetterStates} from "../helper/score";
-import Modal from "../components/Modal";
+import HelpModal from "../components/HelpModal";
 
 
 const PageLayout = styled.div`
@@ -30,8 +30,9 @@ const PageContent = styled.div`
 const Home: NextPage = () => {
 	const localStorageKey = "emodle_data_23kie";
 	const viewportHeight = use100vh() || "100vh";
-	const emodleText = "Avatar the last Air Bender.";
-	const [emodle] = useState<string[]>(["💦", "🌎", "🔥", "🌪️", "⬇️"]);
+	const hint = "A childhood animated show."
+	const emodleText = "SpongeBob SquarePants";
+	const [emodle] = useState<string[]>(["‍🧽","⭐","🦑","🦀","🐌"]);
 	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
 	const [isFinished, setIsFinished] = useState<boolean>(false);
@@ -46,7 +47,7 @@ const Home: NextPage = () => {
 		["", "", "", "", ""],
 		["", "", "", "", ""],
 	]);
-	const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(true);
+	const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
 
 	const numLetters = 5;
 	const numRows = 6;
@@ -54,7 +55,7 @@ const Home: NextPage = () => {
 	// Load data
 	useEffect(() => {
 		let data = JSON.parse(localStorage.getItem(localStorageKey) || "{}");
-		if(!data.emodle || data.emodle.join("") != emodle.join("")) { return; }
+		if(!data.emodle || data.emodle.join("") != emodle.join("")) { setIsHelpModalOpen(true); return; }
 		setCurrRow(data.currRow);
 		setCurrIndex(data.currIndex);
 		setIsFinished(data.isFinished);
@@ -149,9 +150,9 @@ const Home: NextPage = () => {
 
 	return (
 		<PageLayout style={{height: viewportHeight}}>
-			<Modal isOpen={isHelpModalOpen} handleClose={() => setIsHelpModalOpen(false)}/>
+			<HelpModal isOpen={isHelpModalOpen} handleClose={() => setIsHelpModalOpen(false)}/>
 			<PageContent>
-				<Title/>
+				<Title openHelpModal={() => setIsHelpModalOpen(true)}/>
 				{
 					isFinished ?
 						<div>
@@ -161,7 +162,7 @@ const Home: NextPage = () => {
 						</div> :
 						<></>
 				}
-				<GameBoard emodle={emodle} letters={letters} currRow={currRow}/>
+				<GameBoard emodle={emodle} hint={hint} letters={letters} currRow={currRow}/>
 				<Keyboard
 					correctList={correctList}
 					misplacedList={misplacedList}
