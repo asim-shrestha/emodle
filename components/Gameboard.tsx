@@ -5,6 +5,7 @@ import TileRow from "./TileRow";
 const GameBoardLayout = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.25rem;
 `
 
@@ -16,6 +17,7 @@ type GameBoardProps = {
 const GameBoard: FunctionComponent<GameBoardProps> = ({emodle, letters, currRow}) => {
 	return (
 		<GameBoardLayout>
+			<p><b>Hint:</b> Think childhood TV shows.</p>
 			<TileRow letters={letters[0]} emodle={emodle} isFinished={currRow > 0}/>
 			<TileRow letters={letters[1]} emodle={emodle} isFinished={currRow > 1}/>
 			<TileRow letters={letters[2]} emodle={emodle} isFinished={currRow > 2}/>

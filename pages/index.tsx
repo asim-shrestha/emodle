@@ -159,10 +159,7 @@ const Home: NextPage = () => {
 						</div> :
 						<></>
 				}
-				<div>
-					<p><b>Hint:</b> Think childhood TV shows.</p>
-					<GameBoard emodle={emodle} letters={letters} currRow={currRow}/>
-				</div>
+				<GameBoard emodle={emodle} letters={letters} currRow={currRow}/>
 				<Keyboard
 					correctList={correctList}
 					misplacedList={misplacedList}
