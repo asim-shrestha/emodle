@@ -31,9 +31,10 @@ const PageContent = styled.div`
 const Home: NextPage = () => {
 	const localStorageKey = "emodle_data_23ksies";
 	const viewportHeight = use100vh() || "100vh";
+	const day = 1;
 	const hint = "A childhood animated show."
 	const emodleText = "SpongeBob SquarePants";
-	const [emodle] = useState<string[]>(["‍🧽","⭐","🦑","🦀","🐌"]);
+	const [emodle] = useState<string[]>(["‍🧽","◼","👖","🍍","🌊"]);
 	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
 	const [isFinished, setIsFinished] = useState<boolean>(false);
@@ -152,7 +153,7 @@ const Home: NextPage = () => {
 	}
 
 	const handleShare = async () => {
-		let textToShare = getGameEndText(emodle, letters);
+		let textToShare = getGameEndText(emodle, letters, day);
 		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
 			await navigator.share({text: textToShare});
 		} else {

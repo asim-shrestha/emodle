@@ -30,7 +30,7 @@ const getLetterStates = (emodle: string[], letters: string[]): string[] => {
 	return letterStates;
 }
 
-const getGameEndText = (emodle: string[], allLetters: string[][]): string => {
+const getGameEndText = (emodle: string[], allLetters: string[][], day: number): string => {
 	let rowScores = "";
 	let numRows = 1;
 	for(let letters of allLetters) {
@@ -48,7 +48,7 @@ const getGameEndText = (emodle: string[], allLetters: string[][]): string => {
 		else { break; }
 	}
 
-	let gameEndText = `Emodle ${1}, ${numRows}/6\n\n`;
+	let gameEndText = `Emodle ${day}, ${numRows}/6\n\n`;
 	gameEndText += rowScores;
 	gameEndText += `\nBeat my score at ${window.location.origin} #Emodle`;
 
