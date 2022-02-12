@@ -16,12 +16,7 @@ const PageLayout = styled.div`
   flex-direction: column;
 `
 
-const PageContent = styled.div`
-  	width: 400px;
-  @media (max-width: 600px) {
-  	width: 100%;
-  }
-  
+const PageContent = styled.div`  
   padding-bottom: 1rem;
   height: 100%;
   display: flex;
