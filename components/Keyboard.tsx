@@ -9,7 +9,7 @@ const KeyboardGrid = styled.div`
   column-gap:0.5rem;
 
   @media (max-width: 480px) {
-    grid-template-rows:repeat(4, 3.5em);
+    grid-template-rows:repeat(4, 2.75em);
   }
 `;
 
@@ -30,7 +30,7 @@ const KeyboardButton = styled.div<{isCorrect?: boolean, isMisplaced?: boolean, i
   
   @media (max-width: 480px) {
     font-size: 1rem;
-    height: 2.5rem;
+    height: 1.75rem;
   }
   
   &:hover {

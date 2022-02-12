@@ -18,6 +18,11 @@ h1, p {
   padding: 0;
 }
 
+button {
+  font-size: large;
+  margin-right: 1em;
+}
+
 body, input, textarea, button  {
   font-family:"Encode Sans",Roboto,monospace;
 }

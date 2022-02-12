@@ -7,6 +7,7 @@ import Keyboard from "../components/Keyboard";
 import { use100vh } from 'react-div-100vh'
 import {getGameEndText, getLetterStates} from "../helper/score";
 import HelpModal from "../components/HelpModal";
+import WinModal from "../components/EndModal";
 
 
 const PageLayout = styled.div`
@@ -28,7 +29,7 @@ const PageContent = styled.div`
 
 
 const Home: NextPage = () => {
-	const localStorageKey = "emodle_data_23kie";
+	const localStorageKey = "emodle_data_23ksies";
 	const viewportHeight = use100vh() || "100vh";
 	const hint = "A childhood animated show."
 	const emodleText = "SpongeBob SquarePants";
@@ -36,6 +37,7 @@ const Home: NextPage = () => {
 	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
 	const [isFinished, setIsFinished] = useState<boolean>(false);
+	const [won, setWon] = useState<boolean>(false);
 	const [correctList, setCorrectList] = useState<string[]>([]);
 	const [misplacedList, setMisplacedList] = useState<string[]>([]);
 	const [incorrectList, setIncorrectList] = useState<string[]>([]);
@@ -48,6 +50,7 @@ const Home: NextPage = () => {
 		["", "", "", "", ""],
 	]);
 	const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
+	const [isWinModalOpen, setIsWinModalOpen] = useState<boolean>(false);
 
 	const numLetters = 5;
 	const numRows = 6;
@@ -59,6 +62,7 @@ const Home: NextPage = () => {
 		setCurrRow(data.currRow);
 		setCurrIndex(data.currIndex);
 		setIsFinished(data.isFinished);
+		setWon(data.won);
 		setCorrectList(data.correctList);
 		setMisplacedList(data.misplacedList);
 		setIncorrectList(data.incorrectList);
@@ -73,6 +77,7 @@ const Home: NextPage = () => {
 			currRow: currRow,
 			currIndex: currIndex,
 			isFinished: isFinished,
+			won: won,
 			correctList: correctList,
 			misplacedList: misplacedList,
 			incorrectList: incorrectList,
@@ -86,6 +91,11 @@ const Home: NextPage = () => {
 		newLetters[currRow][position] = letter;
 		setLetters(newLetters);
 	}
+
+	useEffect(() => {
+		if(!isFinished) { return; }
+		setIsWinModalOpen(true);
+	}, [isFinished])
 
 	const handleAddLetter = (letter: string) => {
 		if(currIndex >= numLetters || currRow >= numRows || isFinished || incorrectList.indexOf(letter) > -1) { return; }
@@ -110,7 +120,7 @@ const Home: NextPage = () => {
 	const handleEnter = () => {
 		if(currIndex < numLetters) { return; }
 
-		let checkFinish = true;
+		let checkWon = true;
 		let newCorrectList = [...correctList];
 		let newMisplacedList = [...misplacedList];
 		let newIncorrectList = [...incorrectList];
@@ -118,7 +128,7 @@ const Home: NextPage = () => {
 		let letterStates = getLetterStates(emodle, letters[currRow]);
 		for(let i = 0; i < letters[currRow].length; i++) {
 			if(letterStates[i] != "correct") {
-				checkFinish = false
+				checkWon = false
 			}
 
 			if(letterStates[i] == "correct") {
@@ -132,7 +142,10 @@ const Home: NextPage = () => {
 		setCorrectList(newCorrectList);
 		setMisplacedList(newMisplacedList);
 		setIncorrectList(newIncorrectList);
-		setIsFinished(checkFinish);
+
+		setWon(checkWon);
+		console.log(checkWon, currRow + 1);
+		setIsFinished((currRow + 1) >= numRows || checkWon);
 
 		setCurrRow(currRow + 1);
 		setCurrIndex(0);
@@ -150,18 +163,10 @@ const Home: NextPage = () => {
 
 	return (
 		<PageLayout style={{height: viewportHeight}}>
-			<HelpModal isOpen={isHelpModalOpen} handleClose={() => setIsHelpModalOpen(false)}/>
+			<HelpModal isOpen={isHelpModalOpen} setIsOpen={setIsHelpModalOpen}/>
+			<WinModal emodleText={emodleText} emodle={emodle} won={won} handleShare={handleShare} isOpen={isWinModalOpen} setIsOpen={setIsWinModalOpen}/>
 			<PageContent>
 				<Title openHelpModal={() => setIsHelpModalOpen(true)}/>
-				{
-					isFinished ?
-						<div>
-							<h2>{emodleText}</h2>
-							<p>{emodle}</p>
-							<button onClick={handleShare}>Share</button>
-						</div> :
-						<></>
-				}
 				<GameBoard emodle={emodle} hint={hint} letters={letters} currRow={currRow}/>
 				<Keyboard
 					correctList={correctList}

@@ -2,9 +2,9 @@ import {FunctionComponent} from "react";
 import Modal, {ModalProps} from "./Modal";
 import TileRow from "./TileRow";
 
-const HelpModal: FunctionComponent<ModalProps> = ({isOpen, handleClose}) => {
+const HelpModal: FunctionComponent<ModalProps> = ({isOpen, setIsOpen}) => {
 	return (
-		<Modal isOpen={isOpen} handleClose={handleClose}>
+		<Modal isOpen={isOpen} setIsOpen={setIsOpen}>
 			<>
 				<h2>How to play </h2>
 				<p>
@@ -15,7 +15,7 @@ const HelpModal: FunctionComponent<ModalProps> = ({isOpen, handleClose}) => {
 				</p>
 				<div>
 					<p><b>Example:</b> if the emodle is based on the phrase "Kill 2 birds with 1 stone", the emodle
-						would be "🔪🐦🐦1️⃣🧱".</p>
+						would be "🔪🐦🐦1️⃣🧱".<br/><br/></p>
 
 					<TileRow letters={["🔪", "👨‍🍳", "👽", "👀", "👄"]} emodle={["🔪", "🐦", "🐦", "1️⃣", "🧱"]}
 							 isFinished={true} onlyFirst={true}/>

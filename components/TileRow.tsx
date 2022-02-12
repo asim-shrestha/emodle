@@ -12,12 +12,16 @@ const TileDiv = styled.div<{isFinished: boolean, isCorrect: boolean, isMisplaced
   place-items: center;
   width: 3rem;
   height: 3rem;
+  line-height: 3rem;
   font-size: 2rem;
+  border-radius: 10px;
+  text-align: center;
 
   @media (max-width: 480px) {
-    width: 2.5rem;
-    height: 2.5rem;
-    font-size: 1.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    line-height: 2.25rem;
+    font-size: 1.5rem;
   }
   
   ${(props: any) => !props.isFinished && 

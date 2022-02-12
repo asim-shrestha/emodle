@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {FunctionComponent} from "react";
+import {Dispatch, FunctionComponent, SetStateAction} from "react";
 import {use100vh} from 'react-div-100vh'
 
 const ModalBackground = styled.div`
@@ -39,18 +39,20 @@ const ScrollContainer = styled.div`
 
 type ModalProps = {
 	isOpen: boolean,
-	handleClose: () => void;
+	setIsOpen: Dispatch<SetStateAction<boolean>>;
 	children?: JSX.Element,
 }
-const Modal: FunctionComponent<ModalProps> = ({isOpen, handleClose, children}) => {
+const Modal: FunctionComponent<ModalProps> = ({isOpen, setIsOpen, children}) => {
 	const viewportHeight = use100vh() || "100vh";
-
+	const close = () => {
+		setIsOpen(false);
+	}
 	return !isOpen ? <></> : (
-		<ModalBackground style={{height: viewportHeight}} hidden={isOpen} onClick={handleClose}>
+		<ModalBackground style={{height: viewportHeight}} hidden={isOpen}>
 			<ModalDiv>
 				<ScrollContainer>
 					{children}
-					<button onClick={handleClose}>Close</button>
+					<button onClick={close}>Close</button>
 				</ScrollContainer>
 			</ModalDiv>
 		</ModalBackground>
