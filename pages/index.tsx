@@ -109,13 +109,12 @@ const Home: NextPage = () => {
 
 	const handleShare = async () => {
 		let textToShare = getGameEndText(emodle, letters);
-		if (navigator.share) {
 			await navigator.share({text: textToShare});
+		if (navigator.canShare()) {
 		} else {
 			await navigator.clipboard.writeText(textToShare);
+			alert("Copied results to your clipboard!");
 		}
-
-		alert("Copied results to your clipboard!");
 	}
 
 	return (
