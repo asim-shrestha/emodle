@@ -28,20 +28,17 @@ const TileDiv = styled.div<{isFinished: boolean, isCorrect: boolean, isMisplaced
   ${(props: any) => (props.isFinished && props.isCorrect) &&
 		  css`
 			margin: 2px;
-			color: black;
-			background-color: green;
+			background-color: ${(props) => props.theme.colors.correct};
 		  `}
   ${(props: any) => (props.isFinished && !props.isCorrect) &&
 		  css`
 			margin: 2px;
-			color: black;
-			background-color: grey;
+			background-color: ${(props) => props.theme.colors.incorrect};
 		  `}
   ${(props: any) => (props.isFinished && props.isMisplaced) &&
 		  css`
 			margin: 2px;
-			color: black;
-			background-color: yellow;
+			background-color: ${(props) => props.theme.colors.misplaced};
 		  `}
 `
 

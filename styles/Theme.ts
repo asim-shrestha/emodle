@@ -6,9 +6,9 @@ const Theme = {
 
     // Game tiles
     outline: "#d3d3d3",
+    correct: "DarkSeaGreen",
+    misplaced: "orange",
     incorrect: "grey",
-    correct: "green",
-    misplaced: "yellow",
   },
 };
 

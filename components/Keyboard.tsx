@@ -13,13 +13,19 @@ const KeyboardGrid = styled.div`
   }
 `;
 
-const KeyboardButton = styled.div<{isCorrect?: boolean, isIncorrect?: boolean}>`
+const KeyboardButton = styled.div<{isCorrect?: boolean, isMisplaced?: boolean, isIncorrect?: boolean}>`
   display: grid;
   padding: 0.25rem;
   font-size: 1.25rem;
   height: 3rem;
   place-items: center;
-  background-color: ${(props: any) => props.isCorrect ? "green" : (props.isIncorrect ? "#383838" : props.theme.colors.background)};
+  background-color: ${(props: any) => (
+  	props.isCorrect ? props.theme.colors.correct : (
+  		props.isMisplaced ? props.theme.colors.misplaced : (
+  			props.isIncorrect ? props.theme.colors.incorrect : props.theme.colors.background
+		)
+	)
+  )};
   border-radius: 10%;
   
   @media (max-width: 480px) {
@@ -45,21 +51,30 @@ const FunctionButtons = styled.div`
 
 
 type KeyboardProps = {
-	incorrectList: string[];
 	correctList: string[];
+	misplacedList: string[]
+	incorrectList: string[];
 	handleAddLetter: (letter: string) => void;
 	handleEnter: () => void;
 	handleClear: () => void;
 	handleUndo: () => void;
 }
-const Keyboard: FunctionComponent<KeyboardProps> = ({incorrectList, correctList, handleAddLetter, handleEnter, handleClear, handleUndo}) => {
+const Keyboard: FunctionComponent<KeyboardProps> = ({correctList, misplacedList, incorrectList, handleAddLetter, handleEnter, handleClear, handleUndo}) => {
 	const emojis = getEmojiList();
 
 	return (
 		<div>
 			<KeyboardGrid>
 				{
-					emojis.map((emoji: string) => <KeyboardButton key={emoji} isIncorrect={incorrectList.indexOf(emoji) > -1} isCorrect={correctList.indexOf(emoji) > -1} onClick={() => handleAddLetter(emoji)}>{emoji}</KeyboardButton>)
+					emojis.map((emoji: string) => <KeyboardButton
+						key={emoji}
+						isCorrect={correctList.indexOf(emoji) > -1}
+						isMisplaced={misplacedList.indexOf(emoji) > -1}
+						isIncorrect={incorrectList.indexOf(emoji) > -1}
+						onClick={() => handleAddLetter(emoji)}
+					>
+						{emoji}
+					</KeyboardButton>)
 				}
 			</KeyboardGrid>
 			<FunctionButtons>

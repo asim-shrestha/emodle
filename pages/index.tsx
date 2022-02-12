@@ -5,7 +5,7 @@ import GameBoard from "../components/Gameboard";
 import Title from "../components/Title";
 import Keyboard from "../components/Keyboard";
 import { use100vh } from 'react-div-100vh'
-import {getGameEndText} from "../helper/score";
+import {getGameEndText, getLetterStates} from "../helper/score";
 
 
 const PageLayout = styled.div`
@@ -29,11 +29,12 @@ const PageContent = styled.div`
 const Home: NextPage = () => {
 	const viewportHeight = use100vh()
 	const emodleText = "Avatar the last Air Bender.";
-	const [emodle, setEmodle] = useState<string[]>(["💦", "🌎", "🔥", "🌪️", "⬇️"]);
+	const [emodle] = useState<string[]>(["💦", "🌎", "🔥", "🌪️", "⬇️"]);
 	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
 	const [isFinished, setIsFinished] = useState<boolean>(false);
 	const [correctList, setCorrectList] = useState<string[]>([]);
+	const [misplacedList, setMisplacedList] = useState<string[]>([]);
 	const [incorrectList, setIncorrectList] = useState<string[]>([]);
 	const [letters, setLetters] = useState<string[][]>([
 		["", "", "", "", ""],
@@ -55,6 +56,7 @@ const Home: NextPage = () => {
 		setCurrIndex(data.currIndex);
 		setIsFinished(data.isFinished);
 		setCorrectList(data.correctList);
+		setMisplacedList(data.misplacedList);
 		setIncorrectList(data.incorrectList);
 		setLetters(data.letters);
 	}, [])
@@ -68,6 +70,7 @@ const Home: NextPage = () => {
 			currIndex: currIndex,
 			isFinished: isFinished,
 			correctList: correctList,
+			misplacedList: misplacedList,
 			incorrectList: incorrectList,
 			letters: letters,
 		}
@@ -105,23 +108,25 @@ const Home: NextPage = () => {
 
 		let checkFinish = true;
 		let newCorrectList = [...correctList];
+		let newMisplacedList = [...misplacedList];
 		let newIncorrectList = [...incorrectList];
-		for(let i = 0; i < letters.length; i++) {
-			if(letters[currRow][i] == undefined) { continue; }
-			if(letters[currRow][i] != emodle[i]) {
-				checkFinish = false;
+
+		let letterStates = getLetterStates(emodle, letters[currRow]);
+		for(let i = 0; i < letters[currRow].length; i++) {
+			if(letterStates[i] != "correct") {
+				checkFinish = false
 			}
 
-			// Check if input text was correct or not to update the keyboard
-			if(emodle.indexOf(letters[currRow][i]) > -1) {
+			if(letterStates[i] == "correct") {
 				newCorrectList.push(letters[currRow][i]);
-				setCorrectList([...correctList, letters[currRow][i]])
+			} else if(letterStates[i] == "misplaced") {
+				newMisplacedList.push(letters[currRow][i]);
 			} else {
 				newIncorrectList.push(letters[currRow][i]);
-				setIncorrectList([...incorrectList, letters[currRow][i]])
 			}
 		}
 		setCorrectList(newCorrectList);
+		setMisplacedList(newMisplacedList);
 		setIncorrectList(newIncorrectList);
 		setIsFinished(checkFinish);
 
@@ -155,8 +160,9 @@ const Home: NextPage = () => {
 				}
 				<GameBoard emodle={emodle} letters={letters} currRow={currRow}/>
 				<Keyboard
-					incorrectList={incorrectList}
 					correctList={correctList}
+					misplacedList={misplacedList}
+					incorrectList={incorrectList}
 					handleAddLetter={handleAddLetter}
 					handleEnter={handleEnter}
 					handleClear={handleClear}
