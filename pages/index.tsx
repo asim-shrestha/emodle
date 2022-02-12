@@ -27,6 +27,7 @@ const PageContent = styled.div`
 
 
 const Home: NextPage = () => {
+	const localStorageKey = "emodle_data_23kie";
 	const viewportHeight = use100vh()
 	const emodleText = "Avatar the last Air Bender.";
 	const [emodle] = useState<string[]>(["💦", "🌎", "🔥", "🌪️", "⬇️"]);
@@ -50,7 +51,7 @@ const Home: NextPage = () => {
 
 	// Load data
 	useEffect(() => {
-		let data = JSON.parse(localStorage.getItem("emodle_data") || "{}");
+		let data = JSON.parse(localStorage.getItem(localStorageKey) || "{}");
 		if(!data.emodle || data.emodle.join("") != emodle.join("")) { return; }
 		setCurrRow(data.currRow);
 		setCurrIndex(data.currIndex);
@@ -74,7 +75,7 @@ const Home: NextPage = () => {
 			incorrectList: incorrectList,
 			letters: letters,
 		}
-		localStorage.setItem("emodle_data", JSON.stringify(data));
+		localStorage.setItem(localStorageKey, JSON.stringify(data));
 
 	}, [emodle, currRow, currIndex, isFinished, correctList, incorrectList, letters])
 	const changeLetterAtPosition = (letter: string, position: number) => {

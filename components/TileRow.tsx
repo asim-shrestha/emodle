@@ -46,8 +46,9 @@ type TileRowProps = {
 	letters: string[],
 	emodle: string[],
 	isFinished: boolean,
+	onlyFirst?: boolean,
 }
-const TileRow: FunctionComponent<TileRowProps> = ({letters, emodle, isFinished}) => {
+const TileRow: FunctionComponent<TileRowProps> = ({letters, emodle, isFinished, onlyFirst}) => {
 	const letterStates = getLetterStates(emodle, letters);
 
 	return (
@@ -56,7 +57,7 @@ const TileRow: FunctionComponent<TileRowProps> = ({letters, emodle, isFinished})
 				letters.map((letter: string, i) =>
 					<TileDiv
 						key={i + letter}
-						isFinished={isFinished}
+						isFinished={onlyFirst ? (i == 0) && isFinished : isFinished}
 						isCorrect={letterStates[i] == "correct"}
 						isMisplaced={letterStates[i] == "misplaced"}
 					>
