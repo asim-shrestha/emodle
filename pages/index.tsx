@@ -35,7 +35,7 @@ const Home: NextPage = () => {
 	const day = 1;
 	const hint = "A childhood animated show."
 	const emodleText = "SpongeBob SquarePants";
-	const [emodle] = useState<string[]>(["‍🧽","◼","👖","🍍","🌊"]);
+	const [emodle] = useState<string[]>(["🍍","🌊","‍🧽","◼","👖",]);
 	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
 	const [isFinished, setIsFinished] = useState<boolean>(false);
