@@ -1,6 +1,6 @@
 import type {NextPage} from 'next'
 import styled from "styled-components";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import GameBoard from "../components/Gameboard";
 import Title from "../components/Title";
 import Keyboard from "../components/Keyboard";
@@ -28,6 +28,8 @@ const PageContent = styled.div`
 
 const Home: NextPage = () => {
 	const viewportHeight = use100vh()
+	const emodleText = "Avatar the last Air Bender.";
+	const [emodle, setEmodle] = useState<string[]>(["💦", "🌎", "🔥", "🌪️", "⬇️"]);
 	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
 	const [isFinished, setIsFinished] = useState<boolean>(false);
@@ -42,11 +44,36 @@ const Home: NextPage = () => {
 		["", "", "", "", ""],
 	]);
 
-	const emodleText = "Avatar the last Air Bender.";
-	const emodle = ["💦", "🌎", "🔥", "🌪️", "⬇️"];
 	const numLetters = 5;
 	const numRows = 6;
 
+	// Load data
+	useEffect(() => {
+		let data = JSON.parse(localStorage.getItem("emodle_data") || "{}");
+		if(!data.emodle || data.emodle.join("") != emodle.join("")) { return; }
+		setCurrRow(data.currRow);
+		setCurrIndex(data.currIndex);
+		setIsFinished(data.isFinished);
+		setCorrectList(data.correctList);
+		setIncorrectList(data.incorrectList);
+		setLetters(data.letters);
+	}, [])
+
+	// Save data
+	useEffect(() => {
+		if(letters[0][0] == "") { return; }
+		let data = {
+			emodle: emodle,
+			currRow: currRow,
+			currIndex: currIndex,
+			isFinished: isFinished,
+			correctList: correctList,
+			incorrectList: incorrectList,
+			letters: letters,
+		}
+		localStorage.setItem("emodle_data", JSON.stringify(data));
+
+	}, [emodle, currRow, currIndex, isFinished, correctList, incorrectList, letters])
 	const changeLetterAtPosition = (letter: string, position: number) => {
 		const newLetters = [...letters];
 		newLetters[currRow][position] = letter;
@@ -104,8 +131,8 @@ const Home: NextPage = () => {
 
 	const handleShare = async () => {
 		let textToShare = getGameEndText(emodle, letters);
+		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
 			await navigator.share({text: textToShare});
-		if (navigator.canShare()) {
 		} else {
 			await navigator.clipboard.writeText(textToShare);
 			alert("Copied results to your clipboard!");
