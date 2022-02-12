@@ -10,7 +10,7 @@ body {
 }
 
 h1 {
-  word-spacing: 2rem;
+  letter-spacing: 0.25rem;
 }
 
 h1, p {

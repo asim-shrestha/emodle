@@ -1,6 +1,6 @@
 const Theme = {
   colors: {
-    background: "#b1b1b1",
+    background: "LightGray",
     hover: "#6c6c6c",
     dark: "#414141",
 

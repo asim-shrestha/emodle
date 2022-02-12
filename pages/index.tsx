@@ -5,6 +5,7 @@ import GameBoard from "../components/Gameboard";
 import Title from "../components/Title";
 import Keyboard from "../components/Keyboard";
 import { use100vh } from 'react-div-100vh'
+import {getGameEndText} from "../helper/score";
 
 
 const PageLayout = styled.div`
@@ -16,6 +17,11 @@ const PageLayout = styled.div`
 `
 
 const PageContent = styled.div`
+  	width: 400px;
+  @media (max-width: 600px) {
+  	width: 100%;
+  }
+  
   padding-bottom: 1rem;
   height: 100%;
   display: flex;
@@ -66,9 +72,10 @@ const Home: NextPage = () => {
 	}
 
 	const handleClear = () => {
-		for(let i = 0; i <= currIndex; i++) {
-			handleUndo();
+		for(let i = currIndex - 1; i > -1 ; i--) {
+			changeLetterAtPosition("", i);
 		}
+		setCurrIndex(0);
 	}
 
 	const handleEnter = () => {
@@ -100,6 +107,14 @@ const Home: NextPage = () => {
 		setCurrIndex(0);
 	}
 
+	const handleShare = async () => {
+		let textToShare = getGameEndText(emodle, letters);
+
+		await navigator.clipboard.writeText(textToShare);
+
+		alert("Copied results to your clipboard!");
+	}
+
 	return (
 		// @ts-ignore
 		<PageLayout style={{height: viewportHeight}}>
@@ -110,6 +125,7 @@ const Home: NextPage = () => {
 						<div>
 							<h2>{emodleText}</h2>
 							<p>{emodle}</p>
+							<button onClick={handleShare}>Share</button>
 						</div> :
 						<></>
 				}

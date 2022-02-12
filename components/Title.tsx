@@ -8,7 +8,7 @@ const TitleDiv = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  border-bottom: grey solid 1px;
+  border-bottom: lightgray solid 1px;
   padding: 0.5rem;
 `;
 

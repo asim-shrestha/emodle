@@ -1,12 +1,13 @@
 import styled, {css} from "styled-components";
 import {FunctionComponent} from "react";
+import {getLetterStates} from "../helper/score";
 
 const TilesContainer = styled.div`
   display: flex;
   gap: 0.25rem;
 `;
 
-const TileDiv = styled.div`
+const TileDiv = styled.div<{isFinished: boolean, isCorrect: boolean, isMisplaced: boolean}>`
   display: grid;
   place-items: center;
   width: 3rem;
@@ -50,48 +51,14 @@ type TileRowProps = {
 	isFinished: boolean,
 }
 const TileRow: FunctionComponent<TileRowProps> = ({letters, emodle, isFinished}) => {
-	const getLetterStates = (): string[] => {
-		const emodleCopy = [...emodle];
-		const letterBank = [...emodle];
-		const letterStates = ["", "", "", "", ""];
+	const letterStates = getLetterStates(emodle, letters);
 
-		// Get correct letters
-		for(let i = 0; i < letters.length; i++) {
-			if(letters[i] == emodleCopy[i]) {
-				letterStates[i] = "correct"
-
-				// Remove correct letter from letter bank
-				const index = letterBank.indexOf(letters[i]);
-				letterBank.splice(index, 1); // 2nd parameter means remove one item only
-			}
-		}
-
-		// Get misplaced letters if available
-		for(let i = 0; i < letterStates.length; i++) {
-			if(letterStates[i] == "correct") { continue; }
-
-			const index = letterBank.indexOf(letters[i]);
-			if(index > -1) {
-				letterStates[i] = "misplaced"
-
-				// Remove correct letter from letter bank
-				letterBank.splice(index, 1); // 2nd parameter means remove one item only
-			}
-		}
-
-		return letterStates;
-	}
-
-	const letterStates = getLetterStates();
-
-	// @ts-ignore
 	return (
 		<TilesContainer>
 			{
 				letters.map((letter: string, i) =>
 					<TileDiv
 						key={i + letter}
-	// @ts-ignore
 						isFinished={isFinished}
 						isCorrect={letterStates[i] == "correct"}
 						isMisplaced={letterStates[i] == "misplaced"}
