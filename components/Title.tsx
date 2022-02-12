@@ -19,7 +19,10 @@ const TitleDiv = styled.div`
 `
 
 const EmojiText = styled.p`
+  margin-left: 0.25em;
   font-size: x-large;
+  text-align: center;
+  line-height: 1.5em;
 `
 
 const ImageButton = styled.img`
@@ -35,13 +38,17 @@ const ImageButton = styled.img`
 
 type TitleProps = {
 	openHelpModal: () => void;
+	openSettingsModal: () => void;
 }
-const Title: FunctionComponent<TitleProps> = ({openHelpModal}) => {
+const Title: FunctionComponent<TitleProps> = ({openHelpModal, openSettingsModal}) => {
 	return (
 		<HeaderContainer>
 			<ImageButton src={"/help.svg"} alt={"Help"} onClick={openHelpModal}/>
-			<h1>EMODLE</h1>
-			<EmojiText>{getRandomEmoji()}</EmojiText>
+			<TitleDiv>
+				<h1>EMODLE</h1>
+				<EmojiText>{getRandomEmoji()}</EmojiText>
+			</TitleDiv>
+			<ImageButton src={"/settings.svg"} alt={"Settings"} onClick={openSettingsModal}/>
 		</HeaderContainer>
 	)
 }

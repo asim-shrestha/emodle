@@ -8,6 +8,7 @@ import { use100vh } from 'react-div-100vh'
 import {getGameEndText, getLetterStates} from "../helper/score";
 import HelpModal from "../components/HelpModal";
 import WinModal from "../components/EndModal";
+import SettingsModal from "../components/SettingsModal";
 
 
 const PageLayout = styled.div`
@@ -29,7 +30,7 @@ const PageContent = styled.div`
 
 
 const Home: NextPage = () => {
-	const localStorageKey = "emodle_data_23ksies";
+	const localStorageKey = "emodle_data_23ks1ies";
 	const viewportHeight = use100vh() || "100vh";
 	const day = 1;
 	const hint = "A childhood animated show."
@@ -52,6 +53,7 @@ const Home: NextPage = () => {
 	]);
 	const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
 	const [isWinModalOpen, setIsWinModalOpen] = useState<boolean>(false);
+	const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
 
 	const numLetters = 5;
 	const numRows = 6;
@@ -166,8 +168,9 @@ const Home: NextPage = () => {
 		<PageLayout style={{height: viewportHeight}}>
 			<HelpModal isOpen={isHelpModalOpen} setIsOpen={setIsHelpModalOpen}/>
 			<WinModal emodleText={emodleText} emodle={emodle} won={won} handleShare={handleShare} isOpen={isWinModalOpen} setIsOpen={setIsWinModalOpen}/>
+			<SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen}/>
 			<PageContent>
-				<Title openHelpModal={() => setIsHelpModalOpen(true)}/>
+				<Title openHelpModal={() => setIsHelpModalOpen(true)} openSettingsModal={() => setIsSettingsModalOpen(true)}/>
 				<GameBoard emodle={emodle} hint={hint} letters={letters} currRow={currRow}/>
 				<Keyboard
 					correctList={correctList}

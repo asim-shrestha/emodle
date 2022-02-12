@@ -14,7 +14,6 @@ type EndModalProps = ModalProps & {
 	handleShare: () => void;
 }
 const EndModal: FunctionComponent<EndModalProps> = ({emodleText, emodle, won, handleShare, isOpen, setIsOpen}) => {
-	console.log("WIN VAL", won);
 	return (
 		<Modal isOpen={isOpen} setIsOpen={setIsOpen}>
 			<>
