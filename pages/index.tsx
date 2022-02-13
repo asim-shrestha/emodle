@@ -34,7 +34,7 @@ const Home: NextPage = () => {
 	const viewportHeight = use100vh() || "100vh";
 	const day = 1;
 	const hint = "A childhood animated show."
-	const emodleText = "SpongeBob SquarePants";
+	const emodleText = "Who lives in a pineapple under the sea...";
 	const [emodle] = useState<string[]>(["🍍","🌊","‍🧽","◼","👖",]);
 	const [currRow, setCurrRow] = useState<number>(0);
 	const [currIndex, setCurrIndex] = useState<number>(0);
