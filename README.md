@@ -1,3 +1,3 @@
 ## Emoji wordle.
 
-[Play here](https://emodle.vercel.app/)
+[Play now](https://emodle.vercel.app/)
